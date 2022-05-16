@@ -29,7 +29,10 @@ pipeline {
     }
     stage('terraform') {
       steps {
-        sh 'sudo ./terraformw apply -auto-approve -no-color'
+        sh '''
+          chmod +x ./terraformw
+          sudo ./terraformw apply -auto-approve -no-color
+        '''
       }
     }
   }
