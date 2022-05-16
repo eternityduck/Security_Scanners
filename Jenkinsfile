@@ -21,11 +21,11 @@ pipeline {
           reuseNode true
         }
       }
-      steps {
-        sh '''
-          tfsec . --no-color
-        '''
-      }
+      // steps {
+      //   sh '''
+      //     tfsec . --no-color
+      //   '''
+      // }
     }
     stage('terraform') {
       steps {
