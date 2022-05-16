@@ -21,6 +21,16 @@ pipeline {
           reuseNode true
         }
       }
+      steps {
+        sh '''
+          tfsec . --no-color
+        '''
+      }
+    }
+    stage('terraform') {
+      steps {
+        sh './terraformw apply -auto-approve -no-color'
+      }
     }
   }
   post {
