@@ -1,19 +1,8 @@
 pipeline {
   agent {
-    kubernetes {
-      yaml '''
-apiVersion: v1
-kind: Pod
-metadata:
-  name: checkov
-spec:
-  containers:
-  - name: checkov
-    image: bridgecrew/checkov:2.0.888
-    command:
-    - cat
-    tty: true
-'''   
+    docker {
+      image 'bridgecrew/checkov:2.0.888'
+      reuseNode true
     }
   }
   stages {
