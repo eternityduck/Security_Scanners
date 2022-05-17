@@ -24,7 +24,7 @@ pipeline {
      } 
       steps {
           sh '''
-          // checkov --version
+          checkov --version
           checkov -d non-compliant
           '''
       }
