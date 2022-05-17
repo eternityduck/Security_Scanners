@@ -1,44 +1,35 @@
 pipeline {
-  agent { label 'linux'}
-  options {
-    skipDefaultCheckout(true)
+  agent {
+    kubernetes {
+      yaml '''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: checkov
+spec:
+  containers:
+  - name: checkov
+    image: bridgecrew/checkov:2.0.888
+    command:
+    - cat
+    tty: true
+'''   
+    }
   }
-  stages{
-    stage('clean workspace') {
+  stages {
+    stage('verify version') {
       steps {
-        cleanWs()
-      }
-    }
-    stage('checkout') {
-      steps {
-        checkout scm
-      }
-    }
-    stage('tfsec') {
-      agent {
-        docker { 
-          image 'tfsec/tfsec-ci:v0.57.1' 
-          reuseNode true
+        container('checkov') {
+          sh 'checkov --version'
         }
       }
-      steps {
-        sh '''
-          tfsec . --no-color
-        '''
-      }
     }
-    stage('terraform') {
+    stage('analyze non-compliant') {
       steps {
-        sh '''
-          chmod +x ./terraformw
-          ./terraformw apply -auto-approve -no-color
-        '''
+        container('checkov') {
+          sh 'checkov -d non-compliant'
+        }
       }
-    }
-  }
-  post {
-    always {
-      cleanWs()
     }
   }
 }
