@@ -1,24 +1,29 @@
 pipeline {
-  agent {
-    docker {
-      image 'bridgecrew/checkov:2.0.888'
-      reuseNode true
-    }
+  agent { label 'linux'}
+  options {
+    skipDefaultCheckout(true)
   }
   stages {
-    stage('verify version') {
+    stage('checkov') {
+     agent{ 
+      docker {
+        image 'bridgecrew/checkov:2.0.888'
+        reuseNode true
+      }
+     } 
       steps {
-        container('checkov') {
-          sh 'checkov --version'
+         {
+          sh '''
+          checkov --version
+          checkov -d non-compliant
+          '''
         }
       }
     }
-    stage('analyze non-compliant') {
-      steps {
-        container('checkov') {
-          sh 'checkov -d non-compliant'
-        }
-      }
+  }
+  post {
+    always {
+      cleanWs()
     }
   }
 }
