@@ -12,12 +12,10 @@ pipeline {
       }
      } 
       steps {
-         {
           sh '''
           checkov --version
           checkov -d non-compliant
           '''
-        }
       }
     }
   }
