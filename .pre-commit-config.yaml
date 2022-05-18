@@ -10,4 +10,4 @@ repos:
           --args=--no-color
     - id: terraform_checkov
       args:
-        - --args=--output cli
+        - --args=--quiet --compact
