@@ -15,17 +15,10 @@ pipeline {
       }
     }
 
-    stage('checkov') {
-     agent{ 
-      docker {
-        image 'bridgecrew/checkov:2.0.888'
-        reuseNode true
-      }
-     } 
+    stage('pre-commit') {
       steps {
           sh '''
-          checkov --version
-          checkov -d non-compliant
+          docker run -v $(pwd):/lint -w /lint ghcr.io/antonbabenko/pre-commit-terraform:latest run -a
           '''
       }
     }

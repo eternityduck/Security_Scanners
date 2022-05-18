@@ -4,7 +4,7 @@ variable "password" {
 }
 
 resource "evil_corp" "good_example" {
-	root_password = var.password
+  root_password = var.password
 }
 
 output "jenkins_terraform" {
