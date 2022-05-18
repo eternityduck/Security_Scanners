@@ -5,4 +5,10 @@ repos:
     - id: terraform_fmt
     - id: terraform_docs
     - id: terraform_tfsec
+      args:
+        - >
+          --args=--format json
+          --no-color
     - id: terraform_checkov
+      args:
+        - --args=--quiet
