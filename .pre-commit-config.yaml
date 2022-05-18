@@ -7,8 +7,8 @@ repos:
     - id: terraform_tfsec
       args:
         - >
-          --args=--format json
+          # --args=--format json
           --no-color
     - id: terraform_checkov
       args:
-        - --args=--quiet
+        - --args=--output json
